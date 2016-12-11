@@ -1,0 +1,17 @@
+---
+- name:         Install composer
+  shell:        curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
+                creates=/usr/local/bin/composer
+
+- name:         Updaten composer
+  shell:        /usr/local/bin/composer self-update
+  changed_when: false
+
+- name:         Rechten instellen
+  file:         path=/usr/local/bin/composer
+                mode=755
+
+- name:         Zorgen dat /usr/local/bin in $PATH zit
+  lineinfile:   dest=/etc/bashrc
+                line="export PATH=$PATH:/usr/local/bin"
+                create=yes
